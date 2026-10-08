@@ -10,7 +10,7 @@ window.renderReport = function () {
     <button id="printReport">In báo cáo / Lưu PDF</button>
   </section>${kpis(s)}<section class="panel">
     <h2>Tình hình chi trả theo nhóm</h2>${bars(s)}${groupTable(s)}</section>
-    <section class="panel">
+    <section class="panel report-notes">
       <h2>Nội dung cần theo dõi</h2>
       <div class="report-stats">
         <p><strong>${zero.length}</strong> hồ sơ chưa chi</p>

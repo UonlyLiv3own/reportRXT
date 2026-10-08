@@ -1,20 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
       content="Theo dõi giải ngân bồi thường, hỗ trợ và tái định cư Dự án Rạch Xuyên Tâm, phường Bình Thạnh"
     />
-    <title>Rạch Xuyên Tâm · Quản lý giải ngân</title>
+    <title>Báo cáo tổng hợp Rạch Xuyên Tâm</title>
     <link rel="icon" href="assets/favicon.svg" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/dashboard.css" />
-    <link rel="stylesheet" href="css/report.css" />
-  </head>
+    <link rel="stylesheet" href="css/landing.css" />
+</head>
+<body data-page="landing">
+    <div class="landing">
+        <div class="landing-card">
+            <div class="eyebrow">BAN QUẢN LÝ DỰ ÁN DẦU TƯ XÂY DỰNG PHƯỜNG BÌNH THẠNH</div>
+            <h1>Báo cáo tổng hợp Bồi thường, Hỗ trợ, Tái định cư Dự Án <br><b>RẠCH XUYÊN TÂM - Phường BÌNH THẠNH</b></h1>
+            <p>Dữ liệu mặc định là Báo cáo tổng hợp dự án RXT đến ngày <span id="baocao">22-09-2026</span>.</p>
+            <div class="landing-actions">
+                <a class="btn btn-primary" href="pages/tong-quan.html">Trang Quản Lý</a>
+                <a class="btn du-an" href="pages/bao-cao.html">Xem Báo Cáo</a>
+            </div>
+            <div class="hint">
+                Chạy bằng VS Code → cài Live Server → chuột phải vào index.html → Open with Live Server.
+            </div>
+        </div>
+    </div>
 
-  <body data-page="dashboard">
-    <div id="app"></div>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="assets/vendor/xlsx.full.min.js"></script>
     <script src="data/snapshot.js"></script>
     <script src="js/mapping.js"></script>
@@ -25,5 +38,5 @@
     <script src="js/progress.js"></script>
     <script src="js/report.js"></script>
     <script src="js/app.js"></script>
-  </body>
+</body>
 </html>

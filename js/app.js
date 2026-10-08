@@ -1,5 +1,6 @@
-const page = document.body.dataset.page,
-  base = page === "dashboard" ? "" : "../";
+const page = document.body.dataset.page;
+const base = "../";
+
 let state,
   filtered = [],
   tableLimit = 30;
@@ -35,7 +36,7 @@ function kpis(s) {
     .join("")}</div>`;
 }
 function groupTable(s) {
-  return `<div class="table-wrap">
+  return `<div class="table-wrap group-table">
     <table>
       <thead>
         <tr>
@@ -80,7 +81,7 @@ function recordTable(records) {
         (h) =>
           `<tr>
             <td>${esc(h.stt)}</td>
-            <td><a href="${base}pages/chi-tiet.html?id=${h.id}">${esc(h.name)}</a>
+            <td><a href="${esc(detailHref(h.id))}">${esc(h.name)}</a>
                 <small>${esc(h.plan)}</small>${h.alerts.length ? 
                 '<small class="flag">Có chênh lệch</small>' : ""}</td>
             <td>${esc(h.address)}</td>
@@ -100,15 +101,16 @@ function shell() {
     `<aside>
       <a class="brand" href="${base}index.html">
         <span class="brand-icon">RXT</span>
-        <strong>Rạch Xuyên Tâm
-          <small>QUẢN LÝ GIẢI NGÂN</small>
-        </strong></a>
+        <span class="brand-title">RẠCH XUYÊN TÂM
+          <small>Báo Cáo Tổng Hợp</small>
+        </span>
+      </a>
       <p class="nav-label">PHƯỜNG BÌNH THẠNH</p>
       <nav>${[
-        ["dashboard", "index.html", "Tổng quan"],
-        ["detail", "pages/chi-tiet.html", "Chi tiết dự án"],
-        ["progress", "pages/tien-do.html", "Theo dõi tiến độ"],
-        ["report", "pages/bao-cao.html", "Báo cáo lãnh đạo"],
+        ["dashboard", "pages/tong-quan.html", "Tổng quan"],
+        ["progress", "pages/tien-do.html", "Danh sách hồ sơ"],
+        ["detail", "pages/chi-tiet.html", "Chi tiết hồ sơ"],
+        ["report", "pages/bao-cao.html", "Báo cáo tổng hợp"],
       ]
         .map(
           ([k, u, n], i) =>
@@ -128,7 +130,7 @@ function shell() {
       <header>
         <div>
           <p>DỰ ÁN RẠCH XUYÊN TÂM</p>
-          <h1>${{ dashboard: "Tổng quan giải ngân", detail: "Chi tiết dự án", progress: "Theo dõi tiến độ", report: "Báo cáo lãnh đạo" }[page]}</h1>
+          <h1>${{ dashboard: "Tổng quan giải ngân", progress: "Danh sách hồ sơ", detail: "Chi tiết hồ sơ", report: "Báo cáo tổng hợp" }[page]}</h1>
         </div>
         <div class="actions">
           <label class="button">Nhập Excel mới<input id="excelInput" type="file" accept=".xlsx" hidden></label>
@@ -183,25 +185,32 @@ function render() {
   message(
     `Thời điểm báo cáo: ${state.date} · ${state.records.length} hồ sơ · Nguồn: ${state.source} · ${state.issues.length} hồ sơ cần đối chiếu.`,
   );
-  document.querySelector("#content").innerHTML =
-    page === "dashboard"
-      ? renderDashboard() + warningsPanel()
-      : page === "report"
-        ? renderReport()
-        : renderProgress();
-  if (page === "detail" || page === "progress") {
+  const content = document.querySelector("#content");
+  if (page === "dashboard") content.innerHTML = renderDashboard() + warningsPanel();
+  else if (page === "report") content.innerHTML = renderReport();
+  else if (page === "detail") {
+    const id = new URLSearchParams(location.search).get("id");
+    const h = state.records.find(h => h.id === id);
+    content.innerHTML = h ? renderDetail(h) : `<section class="panel"><h2>${id ? "Không tìm thấy hồ sơ" : "Vui lòng chọn hồ sơ từ danh sách"}</h2><p>Chọn một hồ sơ để xem PA, quyết định và tình hình chi trả.</p><a class="button" href="${esc(listHref())}">← Quay về danh sách</a></section>`;
+  } else {
+    content.innerHTML = renderProgress();
     const params = new URLSearchParams(location.search);
-    document.querySelector("#status").value = params.get("status") || "all";
-    for (const id of ["search", "status", "officer", "group"])
-      document
-        .querySelector("#" + id)
-        .addEventListener(id === "search" ? "input" : "change", () => {
-          tableLimit = 30;
-          showResults();
-        });
+    for (const id of ["search", "status", "officer", "group"]) {
+      const control = document.querySelector("#" + id);
+      const value = params.get(id);
+      if (value !== null) control.value = value;
+      if (control.tagName === "SELECT" && control.selectedIndex < 0) control.selectedIndex = 0;
+      control.addEventListener(id === "search" ? "input" : "change", () => {
+        tableLimit = 30;
+        showResults();
+      });
+    }
+    const limit = Number(params.get("limit"));
+    if (Number.isFinite(limit) && limit >= 30) tableLimit = Math.min(limit, state.records.length);
     document.querySelector("#exportCsv").onclick = exportCsv;
     showResults();
-    if (params.get("id")) showDetail(params.get("id"));
+    const scroll = Number(params.get("scroll"));
+    if (scroll > 0) requestAnimationFrame(() => window.scrollTo(0, scroll));
   }
   document
     .querySelector("#printReport")
@@ -213,24 +222,40 @@ function bindAll() {
     (b) =>
       (b.onclick = () => {
         tableLimit = state.records.length;
-        if (page === "progress" || page === "detail") showResults();
+        if (page === "progress") showResults();
         else render();
       }),
   );
 }
 function showResults() {
+  const url = new URL(location.href);
+  for (const key of ["search", "status", "officer", "group"]) url.searchParams.set(key, document.querySelector("#" + key).value);
+  url.searchParams.set("limit", tableLimit);
+  history.replaceState(null, "", url.href);
   filtered = filterRecords();
   document.querySelector("#results").innerHTML = recordTable(filtered);
   bindAll();
 }
-function showDetail(id) {
-  const h = state.records.find((h) => h.id === id);
-  document.querySelector("#detail").innerHTML = renderDetail(h);
-  document.querySelector("#closeDetail")?.addEventListener("click", () => {
-    document.querySelector("#detail").innerHTML = "";
-    history.replaceState({}, "", location.pathname);
-  });
-  document.querySelector("#detail").scrollIntoView({ behavior: "smooth" });
+// URL mang theo bộ lọc để quay lại đúng danh sách, không dùng history.back().
+function listHref() {
+  const params = new URLSearchParams(location.search);
+  const url = new URL("tien-do.html", location.href);
+  for (const key of ["search", "status", "officer", "group", "limit", "scroll"]) {
+    if (params.has(key)) url.searchParams.set(key, params.get(key));
+  }
+  return url.href;
+}
+function detailHref(id) {
+  const url = new URL("chi-tiet.html", location.href);
+  url.searchParams.set("id", id);
+  if (page === "progress") {
+    for (const key of ["search", "status", "officer", "group"]) {
+      url.searchParams.set(key, document.querySelector("#" + key).value);
+    }
+    url.searchParams.set("limit", tableLimit);
+    url.searchParams.set("scroll", window.scrollY || 0);
+  }
+  return url.href;
 }
 function exportCsv() {
   const cell = (v) =>

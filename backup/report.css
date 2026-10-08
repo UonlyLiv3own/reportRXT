@@ -1,0 +1,196 @@
+/* index.html */
+.landing {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(47, 106, 233, 0.14), transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(16,185,129,.10), transparent 50%),
+        var(--bg);
+}
+
+.landing-card {
+    width: min(800px, 100%);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 44px;
+    box-shadow: var(--shadow);
+}
+
+.eyebrow {
+    color: var(--primary);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    margin-bottom: 13px;
+}
+
+.landing h1 {
+    font-size: clamp(30px, 5vw, 52px);
+    line-height: 1.1;
+    margin: 0 0 20px;
+}
+
+.landing p {
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.landing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 28px 0;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 15px 20px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 700;
+}
+
+.btn-primary {
+    color: #fff;
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover { background: var(--primary-dark); }
+
+.du-an:hover { 
+    background: #fff; 
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; 
+}
+
+.btn-back { 
+    width: 250px;
+    height: 30px;
+    font-size: 16px;
+    padding: 5px;
+ }
+.btn-back:hover { box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; }
+
+.hint {
+    color: var(--muted);
+    font-size: 13px;
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border-radius: 10px;
+}
+/* --------------------------------------------------------------- */
+.report-heading {
+  text-align: center;
+  padding: 24px;
+}
+.report-heading h2 {
+  font-size: 22px;
+}
+.report-heading p {
+  color: var(--muted);
+}
+.report-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.report-stats strong {
+  display: block;
+  font-size: 28px;
+  color: var(--teal);
+}
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 12mm;
+  }
+  body {
+    background: white;
+    font-size: 11px;
+  }
+  #app {
+    display: block;
+  }
+  aside,
+  header,
+  .actions,
+  footer,
+  #printReport,
+  .showAll {
+    display: none !important;
+  }
+  main {
+    padding: 0;
+  }
+  .source {
+    font-size: 10px;
+  }
+  .report-heading {
+    padding: 0 0 8px;
+  }
+  .report-heading h2 {
+    font-size: 18px;
+  }
+  .report-heading p,
+  .report-heading h3 {
+    margin: 4px;
+  }
+  .panel {
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 0;
+    break-inside: avoid;
+  }
+  .kpis {
+    margin: 10px 0;
+    gap: 10px;
+  }
+  .kpi {
+    padding: 12px;
+  }
+  .kpi strong {
+    font-size: 22px;
+  }
+  .chart-row {
+    margin: 10px 0;
+    grid-template-columns: 200px 1fr;
+  }
+  .chart {
+    margin: 10px 0;
+  }
+  .bar,
+  .kpi,
+  .badge,
+  th {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .table-wrap {
+    overflow: visible;
+  }
+  table {
+    font-size: 10px;
+  }
+  td,
+  th {
+    padding: 7px;
+  }
+  .report-stats p {
+    margin: 7px 0;
+  }
+  details:not([open]) {
+    display: none;
+  }
+  a {
+    color: inherit;
+  }
+}

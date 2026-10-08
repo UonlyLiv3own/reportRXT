@@ -6,7 +6,7 @@ window.renderDetail = function (h) {
           <p>HỒ SƠ ${esc(h.stt)} · DÒNG EXCEL ${h.sourceRow}</p>
           <h2>${esc(h.name)}</h2><p>${esc(h.address)}</p>
         </div>
-        <button id="closeDetail">Đóng chi tiết</button>
+        <a class="button back-to-list" href="${esc(listHref())}">← Quay về danh sách</a>
       </div>
     <dl>${[    
     ["Phường", h.ward],

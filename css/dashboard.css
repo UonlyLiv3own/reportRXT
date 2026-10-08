@@ -1,101 +1,141 @@
 .kpis {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin: 22px 0;
-}
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  margin:22px 0}
 .kpi {
-  background: white;
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--blue);
-  padding: 22px;
-  border-radius: 9px;
-}
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-top:3px solid var(--blue);
+  padding:22px;
+  border-radius:9px}
 .kpi.paid {
-  border-top-color: var(--teal);
-}
+  border-top-color:var(--teal)}
 .kpi.remaining {
-  border-top-color: var(--orange);
-}
+  border-top-color:var(--orange)}
 .kpi p {
-  font-size: 11px;
-  letter-spacing: 1.4px;
-  font-weight: bold;
-  color: var(--muted);
-  margin: 0 0 10px;
-}
+  font-size:11px;
+  letter-spacing:1.4px;
+  font-weight:bold;
+  color:var(--muted);
+  margin:0 0 10px}
 .kpi strong {
-  display: block;
-  font-size: 29px;
-  letter-spacing: -1px;
-  font-variant-numeric: tabular-nums;
-}
+  display:block;
+  font-size:29px;
+  letter-spacing:-1px;
+  font-variant-numeric:tabular-nums}
 .kpi strong small {
-  font-size: 12px;
-  letter-spacing: 0;
-  font-weight: normal;
-}
-.kpi > span {
-  font-size: 11px;
-  color: var(--muted);
-}
+  font-size:12px;
+  letter-spacing:0;
+  font-weight:normal}
+.kpi>span {
+  font-size:11px;
+  color:var(--muted)}
 .chart {
-  margin: 20px 0 30px;
-}
+  margin:20px 0 30px}
 .chart-row {
-  display: grid;
-  grid-template-columns: 210px 1fr;
-  gap: 22px;
-  align-items: center;
-  margin: 25px 0;
-}
-.chart-row > strong {
-  font-size: 13px;
-}
+  display:grid;
+  grid-template-columns:210px 1fr;
+  gap:22px;
+  align-items:center;
+  margin:25px 0}
+.chart-row>strong {
+  font-size:13px}
 .barline {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin: 5px 0;
-  height: 17px;
-  font-size: 11px;
-}
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:5px 0;
+  height:17px;
+  font-size:11px}
 .bar {
-  height: 12px;
-  border-radius: 0 3px 3px 0;
-  background: var(--blue);
-  min-width: 0;
-}
+  height:12px;
+  border-radius:0 3px 3px 0;
+  background:var(--blue);
+  min-width:0}
 .bar.paid {
-  background: var(--teal);
-}
+  background:var(--teal)}
 .bar.remaining {
-  background: var(--orange);
-}
+  background:var(--orange)}
 .barline span {
-  white-space: nowrap;
-}
-@media (max-width: 1000px) {
+  white-space:nowrap}
+@media(max-width:1000px) {
   .kpi strong {
-    font-size: 23px;
-  }
-  .kpi {
-    padding: 16px;
-  }
+  font-size:23px}
+.kpi {
+  padding:16px}
 }
-@media (max-width: 760px) {
+@media(max-width:760px) {
   .kpis {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .kpi strong {
-    font-size: 28px;
-  }
-  .chart-row {
-    grid-template-columns: 1fr;
-    gap: 7px;
-  }
-  .legend {
-    flex-wrap: wrap;
-  }
+  grid-template-columns:1fr;
+  gap:10px}
+.kpi strong {
+  font-size:28px}
+.chart-row {
+  grid-template-columns:1fr;
+  gap:7px}
+.legend {
+  flex-wrap:wrap}
 }
+
+
+/* Une couleur par indicateur, identique sur les cartes et les graphiques. */
+.kpi  {
+   position: relative;
+   overflow: hidden;
+   box-shadow: 0 10px 28px #00000020;
+   }
+
+.kpi.budget  {
+   background: linear-gradient(125deg,#a69aff17,transparent 85%),var(--surface);
+   }
+
+.kpi.paid  {
+   background: linear-gradient(125deg,#43e0c015,transparent 85%),var(--surface);
+   }
+
+.kpi.remaining  {
+   background: linear-gradient(125deg,#ffbd6915,transparent 85%),var(--surface);
+   }
+
+.kpi.budget strong  {
+   color: #c2b9ff;
+   }
+
+.kpi.paid strong  {
+   color: #69ebd0;
+   }
+
+.kpi.remaining strong  {
+   color: #ffd199;
+   }
+
+.kpi strong small  {
+   color: #c2cde2;
+   }
+
+.kpi p  {
+   color: #c0cce2;
+   }
+
+.chart-row > strong  {
+   color: #d4def1;
+   }
+
+.barline span  {
+   color: #c8d4ec;
+   font-variant-numeric: tabular-nums;
+   }
+
+.bar  {
+   background: linear-gradient(90deg,#8675ef,var(--blue));
+   }
+
+.bar.paid  {
+   background: linear-gradient(90deg,#20ac99,var(--teal));
+   }
+
+.bar.remaining  {
+   background: linear-gradient(90deg,#e69340,var(--orange));
+   }
+

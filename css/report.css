@@ -1,106 +1,208 @@
 .report-heading {
-  text-align: center;
-  padding: 24px;
-}
+  text-align:center;
+  padding:24px}
 .report-heading h2 {
-  font-size: 22px;
-}
+  font-size:22px}
 .report-heading p {
-  color: var(--muted);
-}
+  color:var(--muted)}
 .report-stats {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
+  display:flex;
+  gap:24px;
+  flex-wrap:wrap}
 .report-stats strong {
-  display: block;
-  font-size: 28px;
-  color: var(--teal);
-}
+  display:block;
+  font-size:28px;
+  color:var(--teal)}
 @media print {
   @page {
-    size: A4 landscape;
-    margin: 12mm;
-  }
-  body {
-    background: white;
-    font-size: 11px;
-  }
-  #app {
-    display: block;
-  }
-  aside,
-  header,
-  .actions,
-  footer,
-  #printReport,
-  .showAll {
-    display: none !important;
-  }
-  main {
-    padding: 0;
-  }
-  .source {
-    font-size: 10px;
-  }
-  .report-heading {
-    padding: 0 0 8px;
-  }
-  .report-heading h2 {
-    font-size: 18px;
-  }
-  .report-heading p,
-  .report-heading h3 {
-    margin: 4px;
-  }
-  .panel {
-    padding: 14px;
-    margin: 12px 0;
-    border-radius: 0;
-    break-inside: avoid;
-  }
-  .kpis {
-    margin: 10px 0;
-    gap: 10px;
-  }
-  .kpi {
-    padding: 12px;
-  }
-  .kpi strong {
-    font-size: 22px;
-  }
-  .chart-row {
-    margin: 10px 0;
-    grid-template-columns: 200px 1fr;
-  }
-  .chart {
-    margin: 10px 0;
-  }
-  .bar,
-  .kpi,
-  .badge,
-  th {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  .table-wrap {
-    overflow: visible;
-  }
-  table {
-    font-size: 10px;
-  }
-  td,
-  th {
-    padding: 7px;
-  }
-  .report-stats p {
-    margin: 7px 0;
-  }
-  details:not([open]) {
-    display: none;
-  }
-  a {
-    color: inherit;
-  }
+  size:A4 landscape;
+  margin:12mm}
+body {
+  background:white;
+  font-size:11px}
+#app {
+  display:block}
+aside,header,.actions,footer,#printReport,.showAll {
+  display:none!important}
+main {
+  padding:0}
+.source {
+  font-size:10px}
+.report-heading {
+  padding:0 0 8px}
+.report-heading h2 {
+  font-size:18px}
+.report-heading p,.report-heading h3 {
+  margin:4px}
+.panel {
+  padding:14px;
+  margin:12px 0;
+  border-radius:0;
+  break-inside:avoid}
+.kpis {
+  margin:10px 0;
+  gap:10px}
+.kpi {
+  padding:12px}
+.kpi strong {
+  font-size:22px}
+.chart-row {
+  margin:10px 0;
+  grid-template-columns:200px 1fr}
+.chart {
+  margin:10px 0}
+.bar,.kpi,.badge,th {
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact}
+.table-wrap {
+  overflow:visible}
+table {
+  font-size:10px}
+td,th {
+  padding:7px}
+.report-stats p {
+  margin:7px 0}
+details:not([open]) {
+  display:none}
+a {
+  color:inherit}
 }
+
+
+/* Báo cáo trên màn hình dùng nền tối;
+   khi in dùng nền trắng dễ đọc. */
+@media screen  {
+  
+  .report-heading  {
+   background: linear-gradient(125deg,#a69aff0e,#67d9ff08);
+   border: 1px solid var(--line);
+   border-radius: 10px;
+   margin-top: 22px;
+   }
+
+  .report-heading h2  {
+   color: #e5e0ff;
+   }
+
+  .report-heading h3  {
+   color: var(--cyan);
+   }
+
+  .report-stats p  {
+   border-left: 2px solid var(--blue);
+   padding-left: 16px;
+   flex: 1;
+   min-width: 180px;
+   }
+
+  .report-stats p:nth-child(2)  {
+   border-color: var(--orange);
+   }
+
+  .report-stats p:nth-child(3)  {
+   border-color: var(--cyan);
+   }
+
+  .report-stats p:nth-child(2) strong  {
+   color: var(--orange);
+   }
+
+  .report-stats p:nth-child(3) strong  {
+   color: var(--cyan);
+   }
+
+}
+
+@media print  {
+  
+  :root  {
+   color-scheme: light;
+   --ink: #183746;
+   --muted: #516777;
+   --line: #dce5e8;
+   --surface: #fff;
+   --teal: #087e80;
+   --blue: #6951ba;
+   --orange: #be741d;
+   --cyan: #12617e;
+   }
+
+  body  {
+   background: #fff !important;
+   color: #183746;
+   }
+
+  .panel, .detail, .kpi.budget, .kpi.paid, .kpi.remaining  {
+   background: #fff;
+   box-shadow: none;
+   color: #183746;
+   }
+
+  .kpi.budget strong  {
+   color: #6951ba;
+   }
+
+  .kpi.paid strong  {
+   color: #087e80;
+   }
+
+  .kpi.remaining strong  {
+   color: #a65f10;
+   }
+
+  .kpi strong small, .kpi p, .chart-row > strong, .barline span, .legend  {
+   color: #334e62;
+   }
+
+  th  {
+   background: #eef2f6;
+   color: #334e62;
+   }
+
+  td  {
+   border-bottom-color: #dce5e8;
+   }
+
+  tr:hover td  {
+   background: #fff;
+   }
+
+  .bar  {
+   background: #6951ba;
+   }
+
+  .bar.paid  {
+   background: #087e80;
+   }
+
+  .bar.remaining  {
+   background: #be741d;
+   }
+
+  .notice  {
+   background: #fff3df;
+   color: #7b511d;
+   }
+
+  .badge.low  {
+   background: #fff1da;
+   color: #805311;
+   }
+
+  .badge.ok  {
+   background: #e5f3ef;
+   color: #187862;
+   }
+
+  .flag  {
+   color: #805311 !important;
+   }
+
+}
+
+
+/* Ảnh phần Phạm vi / Nộp tiền / Chênh lệch / Nguồn dữ liệu. */
+.report-notes { padding: 24px; }
+.report-notes > p { margin: 12px 0; }
+@media (max-width: 760px) { .report-notes { padding: 16px; } }
+@media print { .report-notes { padding: 14px; } }

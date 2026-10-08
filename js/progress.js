@@ -2,7 +2,7 @@ window.renderProgress = function () {
   return `<section class="panel">
     <div class="section-title">
       <div>
-        <h2>${page === "detail" ? "Danh sách hồ sơ dự án" : "Theo dõi tiến độ chi trả"}</h2>
+        <h2>Danh sách hồ sơ</h2>
         <p>Tìm theo họ tên, địa chỉ, PA, quyết định · không gộp các PA có cùng tên.</p>
       </div>
       <button id="exportCsv">Xuất danh sách CSV</button>
@@ -29,8 +29,7 @@ window.renderProgress = function () {
       </select>
     </div>
     <div id="results"></div>
-  </section>
-  <div id="detail"></div>`;
+  </section>`;
 };
 window.filterRecords = function () {
   const q = RXT.norm(document.querySelector("#search").value),
