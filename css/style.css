@@ -253,41 +253,51 @@ tr:hover td {
   white-space:nowrap;
   padding:3px 7px;
   border-radius:4px;
-  font-size:11px}
+  font-size:11px
+}
 .badge.low {
   background:#ffbd691a;
-  color:#ffd199}
+  color:#ffd199
+}
 .badge.ok {
   background:#43e0c019;
-  color:#69ebd0}
+  color:#69ebd0
+}
 .filters {
   display:flex;
   flex-wrap:wrap;
-  gap:10px}
+  gap:10px
+}
 .filters input {
   flex:1;
   min-width:240px}
 .result-count {
   font-size:12px;
-  color:var(--muted)}
+  color:var(--muted)
+}
 dl {
   display:grid;
   grid-template-columns:210px 1fr;
-  gap:10px 24px}
+  gap:10px 24px
+}
 dt {
   color:var(--muted)}
 dd {
   margin:0;
-  overflow-wrap:anywhere}
-.detail {
-  border-top:3px solid var(--teal)}
+  overflow-wrap:anywhere
+}
+.detail {  border-top:3px solid var(--teal)}
+
 details summary {
   cursor:pointer;
-  font-weight:bold}
+  font-weight:bold
+}
 footer {
   font-size:11px;
   color:var(--muted);
-  margin-top:30px}
+  margin-top:30px
+}
+
 @media(max-width:1100px) {
   main {
   padding:24px}
@@ -431,12 +441,31 @@ summary::marker  {
 
 }
 
-
 /* Liên kết có hình thức nút: không gạch chân khi hover. */
 .button:hover, .back-to-list:hover { text-decoration: none; }
-/* Ảnh bảng 4 nhóm: căn tiêu đề các cột tiền giống số liệu bên dưới. */
-.group-table th:nth-child(2),
-.group-table th:nth-child(3),
-.group-table th:nth-child(4) { text-align: right; }
-/* Chỉnh lề riêng bảng 4 nhóm tại đây, không ảnh hưởng bảng danh sách. */
+
 .group-table { margin-top: 16px; }
+
+.group-table table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.group-table th,
+.group-table td {
+  width: 20%; /* 100% chia 5 cột */
+  min-width: 0;
+  padding: 12px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Ảnh bảng 4 nhóm: căn tiêu đề các cột tiền giống số liệu bên dưới. */
+.group-table th { 
+  text-align: center;
+  font-size: 13px;
+  border-left: 1px solid var(--muted);
+}
+.group-table th:nth-child(1) { border-left: 1px solid var(--raised);}
+
+.group-table td:nth-child(5) { text-align: center; }

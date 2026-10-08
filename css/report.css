@@ -13,6 +13,39 @@
   display:block;
   font-size:28px;
   color:var(--teal)}
+
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.report-grid > p {
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow-wrap: anywhere;
+}
+
+.report-grid span {
+  font-size: 12px;
+  color:#a3b2cc;
+}
+.report-grid strong {
+  border-bottom:1px solid #6c62b8;
+  background:#a69aff15;
+  color:#c1b8ff;
+}
+
+/* Điện thoại: chuyển thành 1 cột */
+@media (max-width: 760px) {
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+}
 @media print {
   @page {
   size:A4 landscape;
@@ -89,7 +122,7 @@ a {
    }
 
   .report-stats p  {
-   border-left: 2px solid var(--blue);
+   border-left: 2px solid var(--teal);
    padding-left: 16px;
    flex: 1;
    min-width: 180px;

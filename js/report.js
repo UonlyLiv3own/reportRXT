@@ -17,10 +17,14 @@ window.renderReport = function () {
         <p><strong>${low.length}</strong> hồ sơ chi dưới 50% (gồm chưa chi)</p>
         <p><strong>${state.issues.length}</strong> hồ sơ có chênh lệch đối chiếu</p>
       </div>
-          <p>Phạm vi: ${state.records.length} dòng hồ sơ/PA; không phải số hộ duy nhất. Tỷ lệ chung: ${rate(s.total > 0 ? (s.spent / s.total) * 100 : null)}.</p>
-          <p>Nộp tiền bồi thường (V): ${money(s.refund)}; tồn gửi ngân hàng (AB): ${money(s.bank)}.</p>
-          <p>Chênh lệch Dự toán − Đã chi − Chưa chi: <strong>${money(s.total - s.spent - s.left)}</strong>. Giữ số chưa chi theo nguồn Excel.</p>
-          <p>Nguồn dữ liệu: ${esc(state.source)} · ${esc(state.sheet)}.</p>
+      <div class="report-grid">
+        <p>Phạm vi khái quát: <strong>${state.records.length}</strong> dòng dữ liệu hồ sơ. <br> <span>không phải số hộ duy nhất - một hộ có thể có nhiều PA.</span> </p>
+        <p>Tỷ lệ chung: <strong>${rate(s.total > 0 ? (s.spent / s.total) * 100 : null)}</strong>.<br> <span>Tổng đã chi ÷ Tổng dự toán × 100</span> </p>
+        <p>Nộp tiền bồi thường: <strong>${money(s.refund)}</strong>.</p>
+        <p>Tổng tiền tồn gửi ngân hàng: <strong>${money(s.bank)}</strong>.</p>
+        <p>Chênh lệch Dự toán − Đã chi − Chưa chi: <strong>${money(s.total - s.spent - s.left)}</strong>.<br> <span>Giữ số chưa chi theo nguồn Excel.</span> </p>
+        <p>Nguồn dữ liệu báo cáo: <strong>${esc(state.source)} · ${esc(state.sheet)}</strong>.</p>
+      </div>
   </section>${warningsPanel()}`;
 };
 window.warningsPanel = function () {
