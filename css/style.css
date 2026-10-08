@@ -122,14 +122,15 @@ nav a.active {
 }
 .sidebar-note {
   position:absolute;
-  bottom: 25px;
+  bottom: 30px;
   font-size:14px;
   color:#91a1bf;
-  line-height:1.9;
+  line-height:1.5;
 }
 .sidebar-note b {
   color:#d6e1f6;
   letter-spacing:1.5px;
+  line-height:1.9;
 }
 main {
   padding:32px 38px;

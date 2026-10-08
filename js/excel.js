@@ -4,18 +4,12 @@ window.readRXTExcel = async function (buffer, source) {
     cellDates: true,
     cellFormula: true,
   });
-  const name = wb.SheetNames.find((n) => {
-    const r = XLSX.utils.sheet_to_json(wb.Sheets[n], {
-      header: 1,
-      defval: null,
-    });
-    return r.some(
-      (a) =>
-        a.some((c) => RXT.norm(c) === "cb thu ly") &&
-        a.some((c) => RXT.norm(c) === "ho ten"),
-    );
-  });
-  if (!name) throw Error("File không có sheet dữ liệu Rạch Xuyên Tâm phù hợp.");
+  const name = wb.SheetNames.find(
+    n => RXT.norm(n) === RXT.norm("Tổng hợp RXT - Bình Thạnh")
+  );
+
+  if (!name) throw alert('Không tìm thấy sheet name "Tổng hợp RXT - Bình Thạnh". Vui lòng kiểm tra lại "const name = wb.SheetNames.find" tại js/excel.js hoặc kiểm tra dấu câu chữ in hoa trong bảng');
+
   const ws = wb.Sheets[name],
     rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null, raw: true });
   const { cols, start } = RXT.mapping(rows);

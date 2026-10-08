@@ -16,10 +16,10 @@ button, .btn { cursor: pointer; }
 .landing-card {
     width: min(1000px, 100%);
     background: var(--surface);
-    border: 2px solid var(--line);
+    border: 1px solid var(--blue);
     border-radius: 24px;
     padding: 44px;
-    box-shadow: var(--shadow);
+    box-shadow: rgba(196, 131, 252, 0.2) 0px 7px 29px 0px;
 }
 
 .eyebrow {
@@ -29,20 +29,27 @@ button, .btn { cursor: pointer; }
     letter-spacing: .08em;
     margin-bottom: 25px;
 }
-
-.landing h1 {
-    font-size: clamp(20px, 5vw, 35px);
-    line-height: 1.1;
-    margin: 0 0 20px;
+.eyebrow:hover {
+    box-shadow: rgba(193, 146, 255, 0.5) 0px 7px 29px 0px;
+    border-radius: 24px;
+    width: fit-content;
 }
 
-.landing h1 b {
+.landing-card h1 {
+    font-size: clamp(15px, 5vw, 34px);
+    line-height: 1.1;
+}
+.landing-card h1:hover {
+    color: #bbb1fa;    
+}
+
+.landing-card b {
     font-size: 40px;
     line-height: 1.5;
-    margin: 0 0 20px;
+    margin-top: 50px;
 }
 
-.landing p {
+.landing-card p {
     color: var(--muted);
     line-height: 1.7;
     font-size: 17px;

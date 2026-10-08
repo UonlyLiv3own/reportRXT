@@ -102,15 +102,19 @@ window.RXT_MAPPING = [
   { column: "Z", header: "Tạm cư", field: "remaining3", group: "CHƯA CHI" },
   {
     column: "AA",
-    header: "Tổng chưa chi (không có tiêu đề)",
-    field: "remainingTotal",
-    group: "CHƯA CHI",
+    header: "TỒN GỬI NGÂN HÀNG",
+    field: "bank",
+    group: "",
   },
-  { column: "AB", header: "TỒN GỬI NGÂN HÀNG", field: "bank", group: "" },
+  { 
+    column: "AB", 
+    header: "Ghi chú (không có tiêu đề)", 
+    field: "note", 
+    group: "" },
   {
     column: "AC",
-    header: "Ghi chú (không có tiêu đề)",
-    field: "note",
+    header: "",
+    field: "",
     group: "",
   },
 ];

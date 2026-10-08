@@ -18,15 +18,39 @@ window.renderReport = function () {
         <p><strong>${state.issues.length}</strong> hồ sơ có chênh lệch đối chiếu</p>
       </div>
       <div class="report-grid">
-        <p>Phạm vi khái quát: <strong>${state.records.length}</strong> dòng dữ liệu hồ sơ. <br> <span>không phải số hộ duy nhất - một hộ có thể có nhiều PA.</span> </p>
-        <p>Tỷ lệ chung: <strong>${rate(s.total > 0 ? (s.spent / s.total) * 100 : null)}</strong>.<br> <span>Tổng đã chi ÷ Tổng dự toán × 100</span> </p>
-        <p>Nộp tiền bồi thường: <strong>${money(s.refund)}</strong>.</p>
-        <p>Tổng tiền tồn gửi ngân hàng: <strong>${money(s.bank)}</strong>.</p>
-        <p>Chênh lệch Dự toán − Đã chi − Chưa chi: <strong>${money(s.total - s.spent - s.left)}</strong>.<br> <span>Giữ số chưa chi theo nguồn Excel.</span> </p>
-        <p>Nguồn dữ liệu báo cáo: <strong>${esc(state.source)} · ${esc(state.sheet)}</strong>.</p>
+        <p>Phạm vi khái quát : <strong>${state.records.length}</strong> dòng dữ liệu hồ sơ. <br> <span>không phải số hộ duy nhất - một hộ có thể có nhiều PA.</span> </p>
+        <p>Tỷ lệ chung : <strong>${rate(s.total > 0 ? (s.spent / s.total) * 100 : null)}</strong>.<br> <span>Tổng đã chi ÷ Tổng dự toán × 100</span> </p>
+        <p>Nộp tiền bồi thường : <strong>${money(s.refund)}</strong>.</p>
+        <p>Tổng tiền tồn gửi ngân hàng : <strong>${money(s.bank)}</strong>.</p>
+        <p>Chênh lệch Dự toán − Đã chi − Chưa chi : <strong>${money(s.total - s.spent - s.left)}</strong>.<br> <span>Giữ số chưa chi theo nguồn Excel.</span> </p>
+        <p>Nguồn dữ liệu : <strong>${esc(state.source)} · ${esc(state.sheet)}</strong>.</p>
       </div>
   </section>${warningsPanel()}`;
 };
 window.warningsPanel = function () {
-  return `<section class="panel"><details><summary>Đối chiếu số liệu: ${state.issues.length} hồ sơ chênh lệch · ${state.warnings.length} dòng Sheet2</summary>${recordTable(state.issues)}<h3>Danh sách BS tiền/NVTC không khớp (Sheet2)</h3><div class="table-wrap"><table><thead><tr><th>STT</th><th>Họ tên</th><th>PA</th><th>Địa chỉ</th></tr></thead><tbody>${state.warnings.map((r) => `<tr><td>${esc(r[0])}</td><td>${esc(r[6])}</td><td>${esc(r[5])}</td><td>${esc(r[8])}</td></tr>`).join("")}</tbody></table></div></details></section>`;
+  return `<section class="panel">
+  <details>
+    <summary>Đối chiếu số liệu: ${state.issues.length} hồ sơ chênh lệch · ${state.warnings.length} dòng Sheet2</summary>${recordTable(state.issues)}
+    <h3>Danh sách BS tiền/NVTC không khớp (Sheet2)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Họ tên</th>
+            <th>PA</th>
+            <th>Địa chỉ</th>
+          </tr>
+        </thead>
+        <tbody>${state.warnings.map((r) => 
+          `<tr>
+            <td>${esc(r[0])}</td>
+            <td>${esc(r[6])}</td>
+            <td>${esc(r[5])}</td>
+            <td>${esc(r[8])}</td>
+          </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+  </details></section>`;
 };
