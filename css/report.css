@@ -1,8 +1,6 @@
 .report-heading {
   text-align:center;
   padding:24px}
-.report-heading h2 {
-  font-size:22px}
 .report-heading p {
   color:var(--muted)}
 .report-stats {
@@ -90,9 +88,9 @@ main {
 .table-wrap {
   overflow:visible}
 table {
-  font-size:10px}
+  font-size:15px}
 td,th {
-  padding:7px}
+  padding:13px}
 .report-stats p {
   margin:7px 0}
 details:not([open]) {
@@ -113,11 +111,11 @@ a {
    margin-top: 22px;
    }
 
-  .report-heading h2  {
+  .report-heading h1  {
    color: #e5e0ff;
    }
 
-  .report-heading h3  {
+  .report-heading h2  {
    color: var(--cyan);
    }
 

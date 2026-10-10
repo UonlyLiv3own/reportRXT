@@ -13,6 +13,15 @@
       .replace(/đ/g, "d")
       .replace(/\s+/g, " ")
       .trim();
+  // Chỉ các trường tiền được xử lý như số; reason/proposal luôn là chữ.
+  const isMoneyField = k => /^(budget|paid|remaining|refund|bank|openPaid|openRefund|weekly)/.test(k);
+  function formatDate(v) {
+    if (v == null || v === "") return "";
+    if (v instanceof Date) return `${v.getDate()}/${v.getMonth()+1}/${v.getFullYear()}`;
+    if (typeof v === "number" && g.XLSX) { const d = XLSX.SSF.parse_date_code(v); return d ? `${d.d}/${d.m}/${d.y}` : String(v); }
+    if (/^\d{4}-\d{2}-\d{2}/.test(String(v))) return String(v).slice(0,10).split("-").reverse().join("/");
+    return String(v);
+  }
   function mapping(rows) {
     const top = rows.findIndex(
       (r) =>
@@ -24,10 +33,13 @@
       lower = rows[top + 1] || [],
       section = "";
     const cols = {};
+    const cumulative = upper.some(c => norm(c) === "luy ke da chi");
     for (let i = 0; i < Math.max(upper.length, lower.length); i++) {
       const a = norm(upper[i]),
         b = norm(lower[i]);
-      if (["du toan", "da chi", "chua chi"].includes(a)) section = a;
+      if (/^da chi(?:\s|$)/.test(a)) section = "da chi";
+      else if (["du toan", "chi trong tuan", "luy ke da chi", "chua chi", "ly do chua chi"].includes(a)) section = a;
+      else if (["ton gui ngan hang", "de xuat", "ghi chu"].includes(a)) section = "";
       const m = RXT_MAPPING.find((m) =>
         m.group
           ? norm(m.group) === section &&
@@ -38,6 +50,13 @@
       if (m) cols[m.field] = i;
       if (section === "du toan" && b === "du toan") cols.budgetTotal = i;
     }
+    // File cũ chưa có lũy kế: đã chi là số nguồn hiện có.
+    if (!cumulative) {
+      for (let n = 0; n < 4; n++) cols["paid" + n] = cols["openPaid" + n];
+      cols.refund = cols.openRefund;
+    }
+    const newFields = ["resettlement", "handoverDate", "proposal", ...[0,1,2,3].flatMap(n => ["openPaid"+n,"weekly"+n,"reason"+n]), "openRefund", "weeklyRefund"];
+    if (cumulative) for (const k of newFields) if (cols[k] === undefined) throw Error("Thiếu cột trong cấu trúc mới: " + k);
     const need = [
       "stt",
       "name",
@@ -67,12 +86,12 @@
         );
     const rt = cols.remaining3 + 1;
     if (!upper[rt] && !lower[rt] && rt < cols.bank) cols.remainingTotal = rt;
-    const nt = cols.bank + 1;
-    if (!upper[nt] && !lower[nt]) cols.note = nt;
-    return { cols, start: top + 4 };
+    const noteCol = upper.findIndex(c => norm(c) === "ghi chu");
+    if (noteCol >= 0) cols.note = noteCol;
+    return { cols, start: top + 4, cumulative };
   }
   function parse(raw) {
-    const { cols, start } = mapping(raw.rows);
+    const { cols, start, cumulative } = mapping(raw.rows);
     let issues = [];
     const records = raw.rows
       .slice(start)
@@ -84,27 +103,40 @@
         )
           return null;
         const h = { id: String(start + i + 1), sourceRow: start + i + 1 };
+        const inputAlerts = [];
         for (const k of Object.keys(cols)) {
           let v = r[cols[k]];
-          if (/^(budget|paid|remaining|refund|bank)/.test(k)) {
+          if (isMoneyField(k)) {
             if (v == null || v === "") v = 0;
+            if (typeof v === "string" && v.trim() === "-") {
+              inputAlerts.push("Ô tiền " + k + " có dấu '-' dạng chữ, tạm quy đổi 0; cần xác nhận và đổi thành số 0 trong Excel.");
+              v = 0;
+            }
             if (typeof v !== "number" || !Number.isFinite(v))
               throw Error(
                 "Số tiền không hợp lệ tại dòng " + h.sourceRow + ", cột " + k,
               );
             h[k] = v;
-          } else h[k] = String(v ?? "");
+          } else h[k] = k === "handoverDate" ? formatDate(v) : String(v ?? "");
         }
         h.budget = [0, 1, 2, 3].map((n) => h["budget" + n]);
         h.paid = [0, 1, 2, 3].map((n) => h["paid" + n]);
         h.remaining = [0, 1, 2, 3].map((n) => h["remaining" + n]);
+        h.openPaid = [0,1,2,3].map(n => h["openPaid"+n] ?? h.paid[n]);
+        h.weekly = [0,1,2,3].map(n => h["weekly"+n] ?? 0);
+        h.reasons = [0,1,2,3].map(n => h["reason"+n] || "");
+        h.cumulative = cumulative;
         const sum = (a) => a.reduce((a, b) => a + b, 0);
         h.total = sum(h.budget);
         h.spent = sum(h.paid);
         h.left = sum(h.remaining);
         h.rate = h.total > 0 ? (h.spent / h.total) * 100 : null;
         h.delta = h.total - h.spent - h.left;
-        h.alerts = [];
+        h.alerts = inputAlerts;
+        if (cumulative) {
+          for (let n=0;n<4;n++) if (Math.abs(h.paid[n]-h.openPaid[n]-h.weekly[n])>1) h.alerts.push(groups[n]+": lũy kế khác đã chi đầu kỳ + chi trong tuần");
+          if (Math.abs(h.refund-h.openRefund-h.weeklyRefund)>1) h.alerts.push("Nộp tiền lũy kế khác đầu kỳ + trong tuần");
+        }
         for (let n = 0; n < 4; n++)
           if (Math.abs(h.budget[n] - h.paid[n] - h.remaining[n]) > 1)
             h.alerts.push(
@@ -113,21 +145,21 @@
                 (h.budget[n] - h.paid[n] - h.remaining[n]).toLocaleString(
                   "vi-VN",
                 ) +
-                " đ",
+                " đồng",
             );
         if (Math.abs(h.delta) > 1)
           h.alerts.push(
             "Dự toán − đã chi − chưa chi lệch " +
               h.delta.toLocaleString("vi-VN") +
-              " đ",
+              " đồng",
           );
         if (Math.abs(h.budgetTotal - h.total) > 1)
-          h.alerts.push("Tổng dự toán Q khác tổng 4 nhóm");
+          h.alerts.push("Tổng dự toán khác tổng 4 nhóm");
         if (
           cols.remainingTotal !== undefined &&
           Math.abs(h.remainingTotal - h.left) > 1
         )
-          h.alerts.push("Tổng chưa chi AA khác tổng 4 nhóm");
+          h.alerts.push("Tổng chưa chi khác tổng 4 nhóm");
         if (h.rate !== null && (h.rate > 100 || h.rate < 0))
           h.alerts.push("Tỷ lệ ngoài khoảng 0–100%");
         if (h.alerts.length) issues.push(h);
@@ -175,5 +207,5 @@
       bank: records.reduce((s, h) => s + h.bank, 0),
     };
   }
-  g.RXT = { groups, norm, parse, summary, mapping };
+  g.RXT = { groups, norm, parse, summary, mapping, isMoneyField, formatDate };
 })(globalThis);

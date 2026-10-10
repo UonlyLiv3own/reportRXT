@@ -18,11 +18,11 @@ window.renderDashboard = function () {
       <section class="panel">
         <div class="section-title">
           <div>
-            <h2>Hồ sơ đã chi dưới 50%</h2>
-            <p>Bao gồm hồ sơ chưa chi; chỉ tính hồ sơ có dự toán &gt; 0.</p>
+            <h2>Danh sách hồ sơ chưa chi</h2>
+            <p>Hồ sơ có tổng lũy kế đã chi bằng 0 chưa bao gồm danh sách chi tạm cư.</p>
           </div>
-          <a href="${base}pages/tien-do.html?status=low">Xem toàn bộ →</a>
-        </div>${recordTable(state.records.filter((h) => h.rate !== null && h.rate < 50))}</section>`
+          <a href="${base}pages/tien-do.html?status=zero">Xem toàn bộ →</a>
+        </div>${recordTable(state.records.filter((h) => h.total > 0 && h.spent === 0))}</section>`
   );
 };
 window.bars = (s) => {

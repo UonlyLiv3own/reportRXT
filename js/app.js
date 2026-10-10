@@ -12,7 +12,7 @@ const esc = (x) =>
         c
       ],
   );
-const money = (x) => Number(x || 0).toLocaleString("vi-VN") + " đ",
+const money = (x) => Number(x || 0).toLocaleString("vi-VN") + " đồng",
   billion = (x) =>
     (x / 1e9).toLocaleString("vi-VN", { maximumFractionDigits: 3 }),
   rate = (x) =>
@@ -35,16 +35,17 @@ function kpis(s) {
     )
     .join("")}</div>`;
 }
-function groupTable(s) {
-  return `<div class="table-wrap group-table">
+function groupTable(s, reasons = null) {
+  return `<div class="table-wrap group-table${reasons ? " has-reasons" : ""}">
     <table>
       <thead>
         <tr>
           <th>Nhóm chi trả</th>
-          <th>Dự toán (đ)</th>
-          <th>Đã chi (đ)</th>
-          <th>Chưa chi (đ)</th>
+          <th>Dự toán (đồng)</th>
+          <th>Đã chi (đồng)</th>
+          <th>Chưa chi (đồng)</th>
           <th>Tỷ lệ</th>
+          ${reasons ? "<th>Lý do chưa chi</th>" : ""}
         </tr>
       </thead>
       <tbody>${RXT.groups.map((n, i) => 
@@ -54,6 +55,7 @@ function groupTable(s) {
           <td class="num">${money(s.paid[i])}</td>
           <td class="num">${money(s.remaining[i])}</td>
           <td>${rate(s.budget[i] > 0 ? (s.paid[i] / s.budget[i]) * 100 : null)}</td>
+          ${reasons ? `<td class="reason-cell">${esc(reasons[i] || "—")}</td>` : ""}
         </tr>`).join("")}
       </tbody>
     </table>
@@ -68,9 +70,9 @@ function recordTable(records) {
             <th>STT</th>
             <th>Họ tên / PA</th>
             <th>Địa chỉ</th>
-            <th>Dự toán (đ)</th>
-            <th>Đã chi (đ)</th>
-            <th>Chưa chi (đ)</th>
+            <th>Dự toán (đồng)</th>
+            <th>Đã chi (đồng)</th>
+            <th>Chưa chi (đồng)</th>
             <th>Tỷ lệ</th>
           </tr>
         </thead>
@@ -183,7 +185,7 @@ async function loadDefault() {
 }
 function render() {
   message(
-    `Thời điểm báo cáo: ${state.date} · ${state.records.length} hồ sơ · Nguồn: ${state.source} · ${state.issues.length} hồ sơ cần đối chiếu.`,
+    `Thời điểm báo cáo: ${state.date} · ${state.records.length} hồ sơ · Nguồn: ${state.source} · ${state.issues.length} hồ sơ cần đối chiếu.${state.cacheNotice ? " " + state.cacheNotice : ""}`,
   );
   const content = document.querySelector("#content");
   if (page === "dashboard") content.innerHTML = renderDashboard() + warningsPanel();
@@ -308,9 +310,10 @@ function exportCsv() {
     try {
       stored = await rxtStore("get");
     } catch {}
-    state = stored
-      ? RXT.parse(await readRXTExcel(stored.buffer, stored.source))
-      : await loadDefault();
+    if (stored) {
+      try { state = RXT.parse(await readRXTExcel(stored.buffer, stored.source)); }
+      catch (error) { state = await loadDefault(); state.cacheNotice = "Không đọc được Excel đã lưu: " + error.message + " Đang dùng file gốc; hãy nhập Excel mới."; }
+    } else state = await loadDefault();
     render();
   } catch (err) {
     message(err.message, true);

@@ -3,9 +3,9 @@ window.renderReport = function () {
     low = state.records.filter((h) => h.rate !== null && h.rate < 50),
     zero = state.records.filter((h) => h.total > 0 && h.spent === 0);
   return `<section class="report-heading">
-    <p>PHƯỜNG BÌNH THẠNH</p>
-    <h2>BÁO CÁO TÌNH HÌNH GIẢI NGÂN</h2>
-    <h3>Dự án Rạch Xuyên Tâm</h3>
+    <p>ỦY BAN NHÂN DÂN PHƯỜNG BÌNH THẠNH</p>
+    <h1>BÁO CÁO TÌNH HÌNH CHI TIỀN GIẢI PHÓNG MẶT BẰNG</h1>
+    <h2>Dự án Rạch Xuyên Tâm</h2>
     <p>Thời điểm báo cáo: ${esc(state.date)}</p>
     <button id="printReport">In báo cáo / Lưu PDF</button>
   </section>${kpis(s)}<section class="panel">
@@ -15,12 +15,12 @@ window.renderReport = function () {
       <div class="report-stats">
         <p><strong>${zero.length}</strong> hồ sơ chưa chi</p>
         <p><strong>${low.length}</strong> hồ sơ chi dưới 50% (gồm chưa chi)</p>
-        <p><strong>${state.issues.length}</strong> hồ sơ có chênh lệch đối chiếu</p>
+        <p><strong>${state.issues.length}</strong> hồ sơ cần kiểm tra dữ liệu</p>
       </div>
       <div class="report-grid">
         <p>Phạm vi khái quát : <strong>${state.records.length}</strong> dòng dữ liệu hồ sơ. <br> <span>không phải số hộ duy nhất - một hộ có thể có nhiều PA.</span> </p>
         <p>Tỷ lệ chung : <strong>${rate(s.total > 0 ? (s.spent / s.total) * 100 : null)}</strong>.<br> <span>Tổng đã chi ÷ Tổng dự toán × 100</span> </p>
-        <p>Nộp tiền bồi thường : <strong>${money(s.refund)}</strong>.</p>
+        <p>Nộp trả tiền bồi thường : <strong>${money(s.refund)}</strong>.</p>
         <p>Tổng tiền tồn gửi ngân hàng : <strong>${money(s.bank)}</strong>.</p>
         <p>Chênh lệch Dự toán − Đã chi − Chưa chi : <strong>${money(s.total - s.spent - s.left)}</strong>.<br> <span>Giữ số chưa chi theo nguồn Excel.</span> </p>
         <p>Nguồn dữ liệu : <strong>${esc(state.source)} · ${esc(state.sheet)}</strong>.</p>
@@ -30,7 +30,7 @@ window.renderReport = function () {
 window.warningsPanel = function () {
   return `<section class="panel">
   <details>
-    <summary>Đối chiếu số liệu: ${state.issues.length} hồ sơ chênh lệch · ${state.warnings.length} dòng Sheet2</summary>${recordTable(state.issues)}
+    <summary>Đối chiếu số liệu : ${state.issues.length} hồ sơ cần kiểm tra dữ liệu · ${state.warnings.length} dòng</summary>${recordTable(state.issues)}
     <h3>Danh sách BS tiền/NVTC không khớp (Sheet2)</h3>
     <div class="table-wrap">
       <table>

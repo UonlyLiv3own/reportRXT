@@ -8,7 +8,7 @@ window.readRXTExcel = async function (buffer, source) {
     n => RXT.norm(n) === RXT.norm("Tổng hợp RXT - Bình Thạnh")
   );
 
-  if (!name) throw alert('Không tìm thấy sheet name "Tổng hợp RXT - Bình Thạnh". Vui lòng kiểm tra lại "const name = wb.SheetNames.find" tại js/excel.js hoặc kiểm tra dấu câu chữ in hoa trong bảng');
+  if (!name) throw Error('Không tìm thấy sheet "Tổng hơp RXT - Bình Thạnh". Không tự đọc sheet (2) hoặc Tạm cư.');
 
   const ws = wb.Sheets[name],
     rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: null, raw: true });
@@ -16,7 +16,7 @@ window.readRXTExcel = async function (buffer, source) {
   for (let r = start; r < rows.length; r++)
     if (rows[r][cols.name] && rows[r][cols.stt] != null) {
       for (const k in cols)
-        if (/^(budget|paid|remaining|refund|bank)/.test(k)) {
+        if (RXT.isMoneyField(k)) {
           const cell = ws[XLSX.utils.encode_cell({ r, c: cols[k] })];
           if (cell?.f && (cell.v == null || cell.t === "e"))
             throw Error(

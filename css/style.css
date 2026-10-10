@@ -218,13 +218,13 @@ h3 {
 table {
   border-collapse:collapse;
   width:100%;
-  font-size:12px;
+  font-size:13px;
   text-align:left
 }
 th {
   background:#1a2540;
   color:var(--muted);
-  font-size:11px;
+  font-size:13px;
   padding:12px 10px;
   white-space:nowrap
 }
@@ -235,7 +235,7 @@ td {
 }
 td small {
   display:block;
-  font-size:10px;
+  font-size:12px;
   color:var(--muted);
   margin-top:3px
 }
@@ -470,3 +470,15 @@ summary::marker  {
 .group-table th:nth-child(1) { border-left: 1px solid var(--raised);}
 
 .group-table td:nth-child(5) { text-align: center; }
+/* Bảng chi tiết có lý do: bỏ quy tắc 20% ở bảng 5 cột. */
+.group-table.has-reasons table { table-layout: fixed; min-width: 1050px; }
+.group-table.has-reasons th, .group-table.has-reasons td { width: auto; min-width: 0; }
+.group-table.has-reasons th:nth-child(1) { width: 20%; }
+.group-table.has-reasons th:nth-child(2),
+.group-table.has-reasons th:nth-child(3),
+.group-table.has-reasons th:nth-child(4) { width: 17%; }
+.group-table.has-reasons th:nth-child(5) { width: 9%; }
+.group-table.has-reasons th:nth-child(6) { width: 20%; text-align: left; }
+.group-table.has-reasons .reason-cell { white-space: normal; overflow-wrap: anywhere; text-align: left; }
+.period-table { margin-top: 20px; }
+.period-table th:not(:first-child) { text-align: right; }
