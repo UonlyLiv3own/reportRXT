@@ -187,6 +187,13 @@ function render() {
   message(
     `Thời điểm báo cáo: ${state.date} · ${state.records.length} hồ sơ · Nguồn: ${state.source} · ${state.issues.length} hồ sơ cần đối chiếu.${state.cacheNotice ? " " + state.cacheNotice : ""}`,
   );
+  if (page === "dashboard" && state.reportNote) {
+    const note = document.createElement("p");
+    note.className = "report-note";
+    note.textContent = state.reportNote;
+
+    document.querySelector("#message").appendChild(note);
+  }
   const content = document.querySelector("#content");
   if (page === "dashboard") content.innerHTML = renderDashboard() + warningsPanel();
   else if (page === "report") content.innerHTML = renderReport();

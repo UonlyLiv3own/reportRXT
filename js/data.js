@@ -182,10 +182,13 @@
             : String(v);
       }
     }
+    // Ô gộp I5:I8 lưu nội dung ghi chú chung tại ô đầu tiên I5.
+    const reportNote = String(raw.rows[4]?.[8] ?? "").trim();
     return {
       records,
       issues,
       date,
+      reportNote,
       sheet: raw.sheet,
       warnings: raw.warnings || [],
       source: raw.source || "RXT.xlsx",
