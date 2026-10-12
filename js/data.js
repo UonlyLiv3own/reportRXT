@@ -135,7 +135,7 @@
         h.alerts = inputAlerts;
         if (cumulative) {
           for (let n=0;n<4;n++) if (Math.abs(h.paid[n]-h.openPaid[n]-h.weekly[n])>1) h.alerts.push(groups[n]+": lũy kế khác đã chi đầu kỳ + chi trong tuần");
-          if (Math.abs(h.refund-h.openRefund-h.weeklyRefund)>1) h.alerts.push("Nộp tiền lũy kế khác đầu kỳ + trong tuần");
+          if (Math.abs(h.refund-h.openRefund-h.weeklyRefund)>1) h.alerts.push("Chi tiền lũy kế = đầu kỳ + trong tuần");
         }
         for (let n = 0; n < 4; n++)
           if (Math.abs(h.budget[n] - h.paid[n] - h.remaining[n]) > 1)

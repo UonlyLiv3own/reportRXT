@@ -171,7 +171,7 @@ h3 {
 }
 .notice {
   background:#ffbd6912;
-  border-left:4px solid var(--orange);
+  border-left: 4px solid var(--orange);
   padding:13px 17px;
   color:#ffd199
 }

@@ -47,6 +47,6 @@ window.renderDetail = function (h) {
     ${h.proposal ? `<p class="notice"><strong>Đề xuất:</strong> ${esc(h.proposal)}</p>` : ""}
     <p>Tiến độ: <strong>${rate(h.rate)}</strong></p>
       <p>Nộp tiền bồi thường : ${money(h.refund)} · Tồn gửi ngân hàng : ${money(h.bank)}</p>${h.note ? 
-        `<p class="notice">${esc(h.note)}</p>` : ""}${h.alerts.map((a) => 
-          `<p class="notice">${esc(a)}</p>`).join("")}</section>`;
+        `<p class="notice">${esc(h.note)}</p>` : ""}${
+          h.alerts.map((a) => `<p class="notice">${esc(a)}</p>`).join("")}</section>`;
 };
