@@ -120,6 +120,9 @@ nav a.active {
   color:var(--ink);
   border-left:3px solid var(--blue)
 }
+nav.chuachi a:hover {
+  color: #b3a9f0;
+}
 .sidebar-note {
   position:absolute;
   bottom: 30px;

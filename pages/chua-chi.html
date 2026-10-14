@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Danh sách chưa chi · RXT</title>
+    <link rel="stylesheet" href="../css/chua-chi.css" />
+  </head>
+  <body>
+    <main>
+      <nav>
+        <a href="tong-quan.html">← Tổng quan</a>
+        <a href="tien-do.html">Danh sách hồ sơ</a>
+        <a href="bao-cao.html">Báo cáo tổng hợp</a>
+      </nav>
+      <header>
+        <div>
+          <p class="eyebrow">DỰ ÁN RẠCH XUYÊN TÂM</p>
+          <h1>Danh sách chưa chi theo nhóm</h1>
+        </div>
+        <div class="actions">
+          <label class="button"
+            >Nhập Excel mới<input
+              id="file"
+              type="file"
+              accept=".xlsx,.xls"
+              hidden /></label
+          ><button id="print">In / Lưu PDF</button>
+        </div>
+      </header>
+      <p id="source" class="muted"></p>
+      <p id="error" role="alert" hidden></p>
+      <div id="tabs" role="tablist" aria-label="Nhóm chưa chi"></div>
+      <section>
+        <label for="search">Tìm trong danh sách</label
+        ><input
+          id="search"
+          type="search"
+          placeholder="Họ tên, địa chỉ, PA, trạng thái, ghi chú…"
+        />
+        <p id="stats" aria-live="polite"></p>
+        <p class="muted">
+          Danh sách đọc trực tiếp từ từng sheet chưa chi. Một hồ sơ có thể thuộc
+          nhiều nhóm; không cộng số dòng của 4 tab thành tổng hồ sơ duy nhất.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead id="head"></thead>
+            <tbody id="body"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="../assets/vendor/xlsx.full.min.js"></script>
+    <script src="../js/excel.js"></script>
+    <script src="../js/chua-chi.js"></script>
+  </body>
+</html>

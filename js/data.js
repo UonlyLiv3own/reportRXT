@@ -183,7 +183,18 @@
       }
     }
     // Ô gộp I5:I8 lưu nội dung ghi chú chung tại ô đầu tiên I5.
-    const reportNote = String(raw.rows[4]?.[8] ?? "").trim();
+    let reportNote = "";
+
+    for (let r = 0; r < Math.min(10, raw.rows.length); r++) {
+      const c = raw.rows[r].findIndex(
+        (value) => norm(value) === "ghi chu"
+      );
+
+      if (c >= 0) {
+        reportNote = String(raw.rows[r + 1]?.[c] ?? "").trim();
+        break;
+      }
+    }
     return {
       records,
       issues,

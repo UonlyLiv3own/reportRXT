@@ -122,6 +122,10 @@ function shell() {
           "",
         )
       }</nav>
+      <p class="nav-label">NHÓM CẦN THEO DÕI</p>
+      <nav class="chuachi">
+        <a href="${base}pages/chua-chi.html">Danh sách chưa chi theo nhóm</a>
+      </nav>
       
       <div class="sidebar-note">Bồi thường, hỗ trợ<br>và tái định cư<br>
         <b>Dự án Rạch Xuyên Tâm</b>

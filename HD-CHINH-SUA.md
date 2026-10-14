@@ -1,3 +1,21 @@
+# BỔ SUNG TRANG DANH SÁCH CHƯA CHI — KHÔNG THAY FILE CŨ
+
+1. Copy pages/chua-chi.html, js/chua-chi.js, css/chua-chi.css vào thư mục tương ứng của project.
+2. Trang dùng thư viện assets/vendor/xlsx.full.min.js và js/excel.js có sẵn (rxtStore).
+3. Mở pages/chua-chi.html bằng Live Server hoặc website đang chạy. Trang tự đọc Excel đã nhập trên cùng trình duyệt/cùng địa chỉ website; nếu chưa có hãy bấm Nhập Excel mới chọn báo cáo 14-10.
+4. Thêm liên kết trong menu của js/app.js (tìm liên kết tong-quan.html và thêm cạnh đó):
+   <a href="${base}pages/chua-chi.html">Danh sách chưa chi theo nhóm</a>
+   Nếu menu đang là HTML trong thư mục pages, dùng:
+   <a href="chua-chi.html">Danh sách chưa chi theo nhóm</a>
+   Nếu menu ở index.html gốc, dùng:
+   <a href="pages/chua-chi.html">Danh sách chưa chi theo nhóm</a>
+
+5. Không cần sửa data.js/mapping.js để trang này đọc 4 sheet. Trang đọc độc lập toàn bộ cột theo tiêu đề của từng sheet, giữ trạng thái và ghi chú; BT hiển thị Bình Thạnh.
+6. Nhập Excel ở trang mới cũng thay file Excel đã lưu của các trang cũ. Các trang cũ vẫn cần mapping tương thích với file mới như đã hướng dẫn; tải lại các trang đang mở để nhận file mới.
+7. Không cộng số dòng các tab thành số hồ sơ duy nhất. Không lấy 4 sheet này cộng vào tổng tiền của trang tổng quan. Trường hợp file thiếu sheet, tab báo thiếu, không thay bằng danh sách tổng hợp.
+8. Source này là phần bổ sung 3 file mới, không phải toàn bộ project và không ghi đè các chỉnh sửa CSS/JS hiện có.
+
+--------------------------------------------------------------------------
 # CẬP NHẬT SOURCE CHO CẤU TRÚC EXCEL MỚI
 
 1. Sao lưu source hiện tại.
