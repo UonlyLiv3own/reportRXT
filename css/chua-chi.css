@@ -19,7 +19,8 @@ nav {
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
-  margin-bottom: 28px;
+  margin-bottom: 25px;
+  height: 35px;
 }
 a {
   color: #65d9ef;
